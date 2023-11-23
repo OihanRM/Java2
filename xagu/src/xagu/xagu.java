@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 
 public class xagu extends JFrame {
@@ -33,7 +34,9 @@ public class xagu extends JFrame {
 	private JLabel[][] gridLab = new JLabel[10][10];
 	private Font f=new Font("Agency FB", Font.BOLD, 18);
 	private FileDialog dlgMapa =  new FileDialog(xagu.this,"Cargar Mapa", FileDialog.LOAD);
-	private File mapa;
+	private int posRatax;
+	private int posRatay;
+	private boolean ran;
 	/**
 	 * Launch the application.
 	 */
@@ -123,6 +126,7 @@ public class xagu extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 
+				buscarSalida(posRatax, posRatay, gridLab);
 
 			}
 		});
@@ -144,7 +148,9 @@ public class xagu extends JFrame {
 		}
 	}
 	public void darValores()
+
 	{
+		ran=false;
 		if(dlgMapa.getFile()!=null)
 		{
 			try 
@@ -157,18 +163,23 @@ public class xagu extends JFrame {
 					linea=scan.next();
 					for (int i = 0; i < 10; i++) 
 					{
+						gridLab[fila][i].setIcon(null);
 						//gridLab[fila][i].setText(null);
 						//gridLab[fila][i].setIcon(null);
 						if(linea.charAt(i)=='1')
 						{
+							//gridLab[fila][i].setIcon(new ImageIcon(getClass().getResource("muro.jpg")));
+							// NO FUNCIONA PORQUE ECLIPSE ES UN MOJON?
 							gridLab[fila][i].setIcon(new ImageIcon("img/muro.jpg"));
-
+							gridLab[fila][i].setText(null);
 						}
 						if(linea.charAt(i)=='2')
 						{	
 							Image img=new ImageIcon("img/xagu.jpg").getImage();
 							img=img.getScaledInstance(gridLab[0][0].getHeight(),gridLab[0][0].getWidth(), 0);
 							gridLab[fila][i].setIcon(new ImageIcon(img));
+							posRatax=fila;
+							posRatay=i;
 						}
 					}
 					fila++;
@@ -180,6 +191,56 @@ public class xagu extends JFrame {
 		}
 
 	}
+	public void buscarSalida(int i, int j, JLabel[][] gridLab)
+	{
+		
+		if(i==0 || i==9 || j == 0 || j == 9)
+		{
+			System.out.println("se ha escapado la rata");
+			gridLab[i][j].setText("*");
+			ran=true;
+			return;
+		}
+		gridLab[i][j].setText("-");
+		//norte
+		if(gridLab[i-1][j].getIcon()==null && !gridLab[i-1][j].getText().equals("-"))
+		{
+			if(!ran)
+			{
+				buscarSalida(i-1, j, gridLab);
+			}
+		}
+		//este
+		if(gridLab[i][j+1].getIcon()==null && !gridLab[i][j+1].getText().equals("-"))
+		{
+			if(!ran)
+			{
+				buscarSalida(i,j+1, gridLab);
+			}
+		}
+		//oeste
+		if(gridLab[i][j-1].getIcon()==null && !gridLab[i][j-1].getText().equals("-"))
+		{
+			if(!ran)
+			{
+				buscarSalida(i,j-1, gridLab);
+			}
+		}
+		//sur
+		if(gridLab[i+1][j].getIcon()==null && !gridLab[i+1][j].getText().equals("-"))
+		{	
+			if(!ran)
+			{	
+				buscarSalida(i+1,j,gridLab);
+			}
+		}
+		if(ran)
+		{
+			gridLab[i][j].setText("*");
+		}
+
+	}
+	
 }
 
 
