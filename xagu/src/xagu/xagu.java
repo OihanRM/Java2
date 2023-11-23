@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -136,7 +137,7 @@ public class xagu extends JFrame {
 			{
 				gridLab[i][j]=new JLabel();
 				pLab.add(gridLab[i][j]);
-				gridLab[i][j].setText("*");
+				//gridLab[i][j].setText("*");
 				gridLab[i][j].setHorizontalAlignment(JLabel.CENTER);
 				gridLab[i][j].setFont(f);			
 			}
@@ -158,15 +159,17 @@ public class xagu extends JFrame {
 					{
 						//gridLab[fila][i].setText(null);
 						//gridLab[fila][i].setIcon(null);
-						/*if(linea.charAt(i)=='1')
+						if(linea.charAt(i)=='1')
 						{
-							gridLab[fila][i].setIcon(new ImageIcon("img1/muro.jpg"));
+							gridLab[fila][i].setIcon(new ImageIcon("img/muro.jpg"));
 
 						}
 						if(linea.charAt(i)=='2')
 						{	
-							gridLab[fila][i].setIcon(new ImageIcon("img1/xagu.jpg"));
-						}*/
+							Image img=new ImageIcon("img/xagu.jpg").getImage();
+							img=img.getScaledInstance(gridLab[0][0].getHeight(),gridLab[0][0].getWidth(), 0);
+							gridLab[fila][i].setIcon(new ImageIcon(img));
+						}
 					}
 					fila++;
 
