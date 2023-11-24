@@ -105,9 +105,10 @@ public class xagu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dlgMapa.setDirectory(".//map");
 				dlgMapa.setVisible(true);
+				resetMapa();
 				//obtener el fichero elegido. controlar cierre X
 				darValores();
-
+				
 
 			}
 		});
@@ -141,7 +142,7 @@ public class xagu extends JFrame {
 			{
 				gridLab[i][j]=new JLabel();
 				pLab.add(gridLab[i][j]);
-				//gridLab[i][j].setText("*");
+				//gridLab[i][j].setText(null);
 				gridLab[i][j].setHorizontalAlignment(JLabel.CENTER);
 				gridLab[i][j].setFont(f);			
 			}
@@ -171,7 +172,7 @@ public class xagu extends JFrame {
 							//gridLab[fila][i].setIcon(new ImageIcon(getClass().getResource("muro.jpg")));
 							// NO FUNCIONA PORQUE ECLIPSE ES UN MOJON?
 							gridLab[fila][i].setIcon(new ImageIcon("img/muro.jpg"));
-							gridLab[fila][i].setText(null);
+							gridLab[fila][i].setText("");
 						}
 						if(linea.charAt(i)=='2')
 						{	
@@ -203,20 +204,16 @@ public class xagu extends JFrame {
 		}
 		gridLab[i][j].setText("-");
 		//norte
-		if(gridLab[i-1][j].getIcon()==null && !gridLab[i-1][j].getText().equals("-"))
-		{
-			if(!ran)
-			{
+		if(gridLab[i-1][j].getIcon()==null && !gridLab[i-1][j].getText().equals("-") && !ran)
+		{		
 				buscarSalida(i-1, j, gridLab);
-			}
 		}
 		//este
-		if(gridLab[i][j+1].getIcon()==null && !gridLab[i][j+1].getText().equals("-"))
+		if(gridLab[i][j+1].getIcon()==null && !gridLab[i][j+1].getText().equals("-")&& !ran)
 		{
-			if(!ran)
-			{
+
 				buscarSalida(i,j+1, gridLab);
-			}
+
 		}
 		//oeste
 		if(gridLab[i][j-1].getIcon()==null && !gridLab[i][j-1].getText().equals("-"))
@@ -240,7 +237,14 @@ public class xagu extends JFrame {
 		}
 
 	}
-	
+	public void resetMapa()
+	{
+		for (int i = 0; i < gridLab.length; i++) {
+			for (int j = 0; j < gridLab.length; j++) {
+				gridLab[i][j].setText("");
+			}
+		}
+	}
 }
 
 
