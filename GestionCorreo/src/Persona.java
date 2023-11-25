@@ -1,10 +1,7 @@
-
 public class Persona 
 {
-	
 	//DATOS
 	private String nombre, apellido, correo, web;
-	
 
 	//CONSTRUCTOR/ES
 	public Persona()
@@ -64,7 +61,4 @@ public class Persona
 	{
 		this.web=web;
 	}
-
-
-
 }
