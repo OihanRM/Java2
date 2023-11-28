@@ -61,4 +61,20 @@ public class Persona
 	{
 		this.web=web;
 	}
+
+	//AUX FUNCTION
+	public boolean checkCorreo(String correo)
+	{
+		if(correo.indexOf('@')==correo.lastIndexOf('@'))
+		{
+			return false;
+		}
+		if(correo.startsWith("@"))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	
 }
