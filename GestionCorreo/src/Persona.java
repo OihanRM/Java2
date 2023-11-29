@@ -1,3 +1,7 @@
+import java.util.regex.Matcher;
+
+import javax.swing.JOptionPane;
+
 public class Persona 
 {
 	//DATOS
@@ -63,18 +67,43 @@ public class Persona
 	}
 
 	//AUX FUNCTION
-	public boolean checkCorreo(String correo)
+	public boolean checkCorreo()
 	{
-		if(correo.indexOf('@')==correo.lastIndexOf('@'))
+		if(correo.indexOf('@')!=correo.lastIndexOf('@'))
 		{
+			System.out.println("DEBUG----------------->falla en @@");
 			return false;
 		}
 		if(correo.startsWith("@"))
 		{
+			System.out.println("DEBUG----------------->falla en @----");
+			return false;
+		}
+		if(correo.indexOf('@')<2)
+		{
+			System.out.println("DEBUG----------------->falla en corto@");
+			return false;
+		}
+		if(correo.lastIndexOf('.')-correo.indexOf('@')<2)
+		{
+			System.out.println("DEBUG----------------->falla en @....@");
+			return false;
+		}
+		if(correo.length()-correo.lastIndexOf('@')<=2)
+		{
+			System.out.println("DEBUG----------------->falla en .----");
 			return false;
 		}
 		return true;
 	}
+	// STATIC AUX FUNCTION
+	public static boolean checkCorreo(String correo)
+	{
+		if(correo.matches("[\\w]+[a-zA-Z0-9_]+[a-zA-Z0-9_.]*@[a-zA-Z0-9_]{2,}[.][a-zA-Z0-9_]{2,}"))
+		{
+			return true;
+		}
+		return false;
+	}
 
-	
 }

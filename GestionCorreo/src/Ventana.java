@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
@@ -37,10 +39,12 @@ public class Ventana extends JFrame {
 	private JList<String> lstWeb;
 	private JButton btnEnviar;
     private JButton btnBomba;
-	private ArrayList<JTextField> txtList = new ArrayList<>();
+	//private ArrayList<JTextField> txtList = new ArrayList<>();
     private int y=0;
 	//Gestion Jlist
-	private DefaultListModel<String> modeloNombres, modeloCorreo, modeloWeb;
+	private DefaultListModel<String> modeloNombres;
+	private DefaultListModel<String> modeloCorreo;
+	private DefaultListModel<String> modeloWeb;
 	private ArrayList<Persona> arrayDatos;
 
 	public static void main(String[] args) {
@@ -213,6 +217,16 @@ public class Ventana extends JFrame {
         //REGEVENTS
 	}
 	public void regEvents() {
+		lstNombre.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				
+				throw new UnsupportedOperationException("Unimplemented method 'valueChanged'");
+			}
+			
+		});
+
         btnBomba.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 int x=JOptionPane.showConfirmDialog(btnBomba, "ESTA ACCION ES IRREVERSIBLE", "Elminar USUARIOS", 0);
@@ -237,7 +251,8 @@ public class Ventana extends JFrame {
 		});
 
 		btnAdd.addActionListener(new ActionListener() {
-			
+			Persona per;
+			Empleado em;
 			@Override
 			public void actionPerformed(ActionEvent e) {
                 if(txtNombre.getText().trim().equals(""))
@@ -256,27 +271,34 @@ public class Ventana extends JFrame {
                     txtWeb.setText("Null");
                     System.out.println("---------------CADENA VACIACHECK2");
                 }
-                modeloNombres.addElement(txtNombre.getText());
-                modeloCorreo.addElement(txtCorreo.getText());
-                modeloWeb.addElement(txtWeb.getText());
+				per = new Persona(txtNombre.getText(),txtApellido.getText(),txtCorreo.getText(),txtWeb.getText());
+				//if (!per.checkCorreo())
+				if(!Persona.checkCorreo(per.getCorreo()))
+				{
+					JOptionPane.showMessageDialog(null, "correo incorrecto");
+					txtCorreo.requestFocus();
+					txtCorreo.setText("");
+					return;    
+				}
                 if(!chckbxEmpleado.isSelected())
                 {
-                    Persona per = new Persona(txtNombre.getText(),txtApellido.getText(),txtCorreo.getText(),txtWeb.getText());
                     arrayDatos.add(per);
                     System.out.println("__---------------------------------------->1");
                     System.out.println(arrayDatos);
+					listarDatos();
                     y++;
                 } else {
                     try
                     {
                         System.out.println("-------------------------------------->2");
-                        Empleado em = new Empleado(txtNombre.getText(),txtApellido.getText(),txtCorreo.getText(),txtWeb.getText(), Integer.parseInt(txtEdad.getText()), txtTlfn.getText(), txtDireccion.getText());
+                        em = new Empleado(per, Integer.parseInt(txtEdad.getText()), txtTlfn.getText(), txtDireccion.getText());
                         arrayDatos.add(em);
                         System.out.println(arrayDatos);
+						listarDatos();
                         y++;
                     }catch(Exception e1)
                     {
-                        System.out.println("DEBUG SHOW ME INDEX = "+y);
+                        System.out.println("DEBUG; SHOW ME INDEX = "+y);
                         System.err.println("Hay algun tipo de dato incorrecto");
                         JOptionPane.showMessageDialog(null, "Error en los datos", "ERROR",1 );
                         modeloNombres.remove(y);
@@ -301,6 +323,12 @@ public class Ventana extends JFrame {
         txtWeb.setText("");
         txtNombre.requestFocus();
     }
-
+	public void listarDatos()
+	{
+		modeloNombres.addElement(txtNombre.getText());
+        modeloCorreo.addElement(txtCorreo.getText());
+        modeloWeb.addElement(txtWeb.getText());
+		txtNombre.requestFocus();
+	}
 	
 }
