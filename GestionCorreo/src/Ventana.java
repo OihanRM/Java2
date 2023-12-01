@@ -277,7 +277,7 @@ public class Ventana extends JFrame {
 				{
 					JOptionPane.showMessageDialog(null, "correo incorrecto");
 					txtCorreo.requestFocus();
-					txtCorreo.setText("");
+					txtCorreo.selectAll();
 					return;    
 				}
                 if(!chckbxEmpleado.isSelected())
