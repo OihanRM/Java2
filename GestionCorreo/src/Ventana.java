@@ -214,18 +214,27 @@ public class Ventana extends JFrame {
 		regEvents();
         //FIN CONST
 
-        //REGEVENTS
+
 	}
+		//REGEVENTS
+	
 	public void regEvents() {
-		lstNombre.addListSelectionListener(new ListSelectionListener() {
+		ListSelectionListener listener=new ListSelectionListener() {
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				
-				throw new UnsupportedOperationException("Unimplemented method 'valueChanged'");
+				//Ha cambiado el elemento seleccionado
+				JList lista=(JList)e.getSource();
+				int pos= lista.getSelectedIndex();
+				lstCorreo.setSelectedIndex(pos);
+				lstNombre.setSelectedIndex(pos);
+				lstWeb.setSelectedIndex(pos);
 			}
 			
-		});
+		};
+		lstNombre.addListSelectionListener(listener);
+		lstCorreo.addListSelectionListener(listener);
+		lstWeb.addListSelectionListener(listener);
 
         btnBomba.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
