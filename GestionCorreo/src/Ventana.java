@@ -46,6 +46,7 @@ public class Ventana extends JFrame {
 	private DefaultListModel<String> modeloCorreo;
 	private DefaultListModel<String> modeloWeb;
 	private ArrayList<Persona> arrayDatos;
+	private Receptor receptor;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -219,6 +220,17 @@ public class Ventana extends JFrame {
 		//REGEVENTS
 	
 	public void regEvents() {
+		btnEnviar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				receptor = new Receptor(Ventana.this);
+				receptor.setVisible(true);
+				Ventana.this.setVisible(false);
+			}
+			
+		});
+
 		ListSelectionListener listener=new ListSelectionListener() {
 
 			@Override
