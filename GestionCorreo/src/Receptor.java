@@ -1,6 +1,14 @@
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -17,7 +25,7 @@ public class Receptor extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lblPara;
-    private JList lstRecibidos;
+    private JList<String> lstRecibidos;
 	private JTextField txtPara;
 	private JTextField txtCC;
 	private JTextField txtAsunto;
@@ -25,6 +33,9 @@ public class Receptor extends JFrame {
     private JButton btnFlecha;
     private JButton btnVolver;
     private Ventana ventana;
+	private ArrayList<Persona> arrayDatos = new ArrayList<>();
+	private DefaultListModel<String> recibidosModel;
+	private JScrollPane scrollPane = new JScrollPane();
 
     //CONSTRUCTOR
 	public Receptor(Ventana ventana) {
@@ -73,14 +84,14 @@ public class Receptor extends JFrame {
 		contentPane.add(txtMensaje);
         txtMensaje.setBorder(txtAsunto.getBorder());
 
-        JScrollPane scrollPane = new JScrollPane();
+  
 		scrollPane.setBounds(250, 106, 151, 144);
 		contentPane.add(scrollPane);
 
         lstRecibidos = new JList<String>();
         scrollPane.setViewportView(lstRecibidos);
-        lstRecibidos.setVisible(true);
-        contentPane.add(lstRecibidos);
+		recibidosModel = new DefaultListModel<String>();
+		lstRecibidos.setModel(recibidosModel);
 
         btnFlecha = new JButton(">>");
 		btnFlecha.setBounds(250, 50, 89, 23);
@@ -95,6 +106,23 @@ public class Receptor extends JFrame {
 
     public void regEvents()
     {
+		addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e)
+			{
+				if(e.getClickCount()>=2)
+				{
+
+					txtPara.setText(txtPara.getText()+";"+arrayDatos.get(lstRecibidos.getSelectedIndex()).getCorreo());
+
+				}
+			}
+		});
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				ventana.setVisible(true);
+			}
+		});
         btnVolver.addActionListener(new ActionListener() {
 
             @Override
@@ -104,5 +132,24 @@ public class Receptor extends JFrame {
             }
             
         });
+
+		btnFlecha.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//OBTENER LOS DATOS DEL ARRAYLIST
+				arrayDatos=ventana.getPersona();
+				System.out.println(arrayDatos);
+				recibidosModel.clear();
+				for (Persona persona : arrayDatos) 
+				{					
+					System.out.println("<"+persona.getCorreo()+">"+"RESULTADO GETTER");
+					recibidosModel.addElement("<"+persona.getCorreo()+">");
+					System.out.println(persona.getApellido()+" "+persona.getCorreo());
+				}
+			}
+			
+		});
     }
+
 }

@@ -255,6 +255,10 @@ public class Ventana extends JFrame {
                 if(x==0)
                 {
                     arrayDatos.clear();
+					modeloCorreo.clear();
+					modeloNombres.clear();
+					modeloWeb.clear();
+				
                 }
             }
         });
@@ -350,6 +354,11 @@ public class Ventana extends JFrame {
         modeloCorreo.addElement(txtCorreo.getText());
         modeloWeb.addElement(txtWeb.getText());
 		txtNombre.requestFocus();
+	}
+	/// GETTER SETTER DEL ARRAYLIST
+	public ArrayList<Persona> getPersona()
+	{
+		return arrayDatos;
 	}
 	
 }
