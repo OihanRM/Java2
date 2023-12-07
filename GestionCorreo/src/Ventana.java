@@ -254,6 +254,7 @@ public class Ventana extends JFrame {
                 System.out.println(x);
                 if(x==0)
                 {
+					
                     arrayDatos.clear();
 					modeloCorreo.clear();
 					modeloNombres.clear();
