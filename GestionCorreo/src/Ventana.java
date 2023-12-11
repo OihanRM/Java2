@@ -38,7 +38,8 @@ public class Ventana extends JFrame {
 	private JList<String> lstCorreo;
 	private JList<String> lstWeb;
 	private JButton btnEnviar;
-    private JButton btnBomba;
+    private JButton btnGuardar;
+	private JButton btnCargar;
 	//private ArrayList<JTextField> txtList = new ArrayList<>();
     private int y=0;
 	//Gestion Jlist
@@ -205,9 +206,14 @@ public class Ventana extends JFrame {
 		contentPane.add(btnEnviar);
 		pnlEmpl.setVisible(false);
 
-        btnBomba = new JButton("BOTON ROJO");
-		btnBomba.setBounds(662, 362, 129, 23);
-		contentPane.add(btnBomba);
+        btnGuardar = new JButton("Guardar");
+		btnGuardar.setBounds(662, 342, 129, 23);
+		contentPane.add(btnGuardar);
+
+		btnCargar = new JButton("Cargar");
+		btnCargar.setBounds(662, 362, 129, 23);
+		contentPane.add(btnCargar);
+
 
 		
 		arrayDatos=new ArrayList<Persona>();
@@ -248,19 +254,21 @@ public class Ventana extends JFrame {
 		lstCorreo.addListSelectionListener(listener);
 		lstWeb.addListSelectionListener(listener);
 
-        btnBomba.addActionListener(new ActionListener() {
+        btnGuardar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                int x=JOptionPane.showConfirmDialog(btnBomba, "ESTA ACCION ES IRREVERSIBLE", "Elminar USUARIOS", 0);
-                System.out.println(x);
-                if(x==0)
-                {
-					
-                    arrayDatos.clear();
-					modeloCorreo.clear();
-					modeloNombres.clear();
-					modeloWeb.clear();
-				
-                }
+                
+            }
+        });
+
+		btnGuardar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                BaseDatos insert = new BaseDatos();
+				insert.connectDatabase();
+				for (Persona persona : arrayDatos) 
+				{
+					insert.insertSQL(persona);
+				}
+				insert.disconectDatabase();
             }
         });
 
