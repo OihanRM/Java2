@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class BaseDatos {
     //DATOS DE LA BD
     Connection cn;
-    String cadenaConex="jdbc:mysql://localhost:3306/GestionCorreo"; 
+    String cadenaConex="jdbc:mysql://localhost:3306/correos"; 
 
     public  BaseDatos()
     {
@@ -21,8 +21,9 @@ public class BaseDatos {
         {
             cn=DriverManager.getConnection(cadenaConex, "root", "");
         } catch (SQLException e) 
-        {
+        { 
             System.err.println("ERROR AL CONECTAR DATABASE");
+            System.out.println(e.getMessage());
         }
     }
     //DISCONNECTBBDD
@@ -32,6 +33,7 @@ public class BaseDatos {
             cn.close();
         } catch (SQLException e) {
             System.err.println("ERROR AL DESCONECTAR DATABASE");
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -42,7 +44,7 @@ public class BaseDatos {
         PreparedStatement sentencia;
         if(insert.getClass()==Persona.class)
         {
-            strSent= "INSERT INTO 'personas' ('id_persona', 'nombre', 'apellido', 'correo', 'web') VALUES (NULL, ?, ?, ?, ?)";
+            strSent= "INSERT INTO personas VALUES (NULL, ?, ?, ?, ?)";
             try {
                 sentencia=cn.prepareStatement(strSent, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 sentencia.setString(1, insert.getNombre());
@@ -57,10 +59,19 @@ public class BaseDatos {
         }
         if(insert.getClass()==Empleado.class)
         {
-            strSent= "INSERT INTO `empleados` (`id_empleado`, `edad`, `telefono`, `direccion`, `nombre`, `apellido`, `correo`, `web`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)";
+            strSent= "INSERT INTO empleados VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)";
         }
         return -1;
     }
     //OBTENER DATOS (SELECT)
+
+    public Persona selectSQL()
+    {
+        Persona item=null;
+        String strSent;
+        strSent="SELECT * FROM personas";
+         
+        return item;
+    }
 }
   

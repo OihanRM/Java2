@@ -254,13 +254,23 @@ public class Ventana extends JFrame {
 		lstCorreo.addListSelectionListener(listener);
 		lstWeb.addListSelectionListener(listener);
 
-        btnGuardar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+        btnCargar.addActionListener(new ActionListener() 
+		{
+            public void actionPerformed(ActionEvent e)
+			{
+				BaseDatos insert = new BaseDatos();
+				insert.connectDatabase();
+							for (Persona persona : arrayDatos) 
+				{
+					insert.insertSQL(persona);
+				}
+				insert.disconectDatabase();
                 
             }
         });
 
-		btnGuardar.addActionListener(new ActionListener() {
+		btnGuardar.addActionListener(new ActionListener() 
+		{
             public void actionPerformed(ActionEvent e){
                 BaseDatos insert = new BaseDatos();
 				insert.connectDatabase();
