@@ -8,11 +8,10 @@ import java.sql.SQLException;
 public class BaseDatos {
     //DATOS DE LA BD
     Connection cn;
-    String cadenaConex="jdbc:mysql://localhost:3306/GestionCorreo";
+    String cadenaConex="jdbc:mysql://localhost:3306/GestionCorreo"; 
 
-    public BaseDatos()
+    public  BaseDatos()
     {
-
 
     }
     //CONECTARBBDD
